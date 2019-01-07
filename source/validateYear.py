@@ -5,10 +5,17 @@ def validate(dateIn):
     date = re.split('-|\s|/', dateIn)
     if((len(date) < 3) | len(date) > 3): 
         return '{} - INVALID: incorrect format.\nPlease use dd/[mm/3 chars for month]/[yy/yyyy] seperated with "/","-", or <space>, eg: 12-SEP-1995'.format(dateIn)
-    day = int(date[0])
-    month = formatMonth(date[1])
-    year = formatYear(date[2])
     errors = []
+
+    if(date[0].isDigit()):
+        day = int(date[0])
+    else:
+        errors.append('invalid day format(use: dd)')
+    month = formatMonth(date[1])
+    if(year.isDigit()):
+        year = formatYear(date[2])
+    else:
+        errors.append('invalid year format(use: yy/yyyy)')
 
     if(month != 'err'):
         if (day.isDigit()):
@@ -18,19 +25,12 @@ def validate(dateIn):
                     err = False
                 if(err): 
                     errors.append('days out of range')
-        else:
-            errors.append('invalid day format(use: dd)')
     else:
         errors.append('unable to validate day')
-    
-    if(month == 'err'):
-        errors.append('not a valid month')
+        errors.append('not a valid month')        
 
-    if(year.isDigit()):
-        if((year < 1753) | (year > 3000)):
-            errors.append('year out of range')
-    else:
-        errors.append('invalid year format(use: yy/yyyy)')
+    if((year < 1753) | (year > 3000)):
+        errors.append('year out of range')
     
     if(len(errors) >= 1):
         return '{} - INVALID: {}'.format(dateIn, ", ".join(errors).capitalize() + ".")
@@ -67,7 +67,3 @@ def formatYear(year):
             return year
     else:
         return year
-
-with open("test-dates") as f:
-    for line in f:
-        print(validate(line))
