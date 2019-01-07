@@ -7,18 +7,18 @@ def validate(dateIn):
         return '{} - INVALID: incorrect format.\nPlease use dd/[mm/3 chars for month]/[yy/yyyy] seperated with "/","-", or <space>, eg: 12-SEP-1995'.format(dateIn)
     errors = []
 
-    if(date[0].isDigit()):
+    if(date[0].isdigit()):
         day = int(date[0])
     else:
         errors.append('invalid day format(use: dd)')
     month = formatMonth(date[1])
-    if(year.isDigit()):
+    if(date[2].isdigit()):
         year = formatYear(date[2])
     else:
         errors.append('invalid year format(use: yy/yyyy)')
 
     if(month != 'err'):
-        if (day.isDigit()):
+        if (day.isdigit()):
             if((day > months[month]) & (day > 0)):
                 err = True
                 if(isLeapYear(year) & (month == 'Feb') & (day == 29)):
@@ -56,7 +56,7 @@ def formatMonth(month):
         return 'err'
 
 def formatYear(year):
-    if not(year.isDigit()): return 'err'
+    if not(year.isdigit()): return 'err'
     year = int(year)
     if(year <= 99):
         if(year >= 50):

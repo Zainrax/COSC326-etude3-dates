@@ -1,13 +1,12 @@
 import validateYear as vy
 
-op = input('Would you like to read date file or manually input a date?[read/manual]\n')
-if(op == 'read'): op = 0
-elif(op == 'manual'): op = 1
+op = input('Would you like to read(r) date file or manually(m) input a date?read="r"|manual="m"\n')
 
-if(op == 0):
+
+if(op == 'm'):
     date = input('Enter date:\n')
-    vy.validate(date)
-elif(op == 1):
+    print(vy.validate(date))
+elif(op == 'r'):
     with open("test-dates.txt", 'r') as f:
         for line in f:
-            vy.validate(f)
+            print(vy.validate(line))
