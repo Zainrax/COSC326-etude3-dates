@@ -1,4 +1,5 @@
 import validateDate as vd
+import os
 """
 Main program to get input from a user to validate dates.
 It can read a file called "dates.txt", or users can manually
@@ -18,7 +19,10 @@ while(True):
             if(date == 'exit'): break
             print(vd.validate(date))
     elif(op == 'r'):
-        with open("dates.txt", 'r') as f:
+        filename = input('What is the name of the file including extension(.txt recommended)? eg. "dates.txt"')
+        while not (os.path.isfile(filename)):
+            filename = input('Invalid input, try again:')
+        with open(filename, 'r') as f:
             for line in f:
                 print(vd.validate(line))
         print('type "exit" to escape:')
@@ -26,3 +30,4 @@ while(True):
             if(input()=='exit'): break;
     else:
         op = input('Invalid input, try again:[r|m|exit]')
+
