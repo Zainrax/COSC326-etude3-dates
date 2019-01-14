@@ -68,8 +68,14 @@ def isLeapYear(year):
     Returns:
         Boolean depending if it is a leap year or not.
     """
-    if ((year % 4 == 0) & (year % 100 == 0) & (year % 400 == 0)):
-        return True
+    if (year % 4 == 0):
+        if (year % 100 == 0):
+            if(year % 400 == 0):
+                return True
+            else:
+                return False
+        else:    
+            return True
     else:
         return False
 
