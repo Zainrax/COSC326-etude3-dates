@@ -1,5 +1,4 @@
 import re
-import datetime
 """
 Library containing functions for validating a date.
 Used to validate dates between the years 1753 and 3000,
@@ -82,8 +81,8 @@ def format_day(day, month, year):
     Returns:
         returns the day if it is valid.
     """
-    months = {'Jan':31,'Feb':28,'Mar':31,'Apr':30,'May':30,'Jun':31,
-              'Jul':31,'Aug':30,'Sep':31,'Oct':30,'Nov':31,'Dec':31}
+    months = {'Jan':31,'Feb':28,'Mar':31,'Apr':30,'May':31,'Jun':30,
+              'Jul':31,'Aug':31,'Sep':30,'Oct':31,'Nov':30,'Dec':31}
     if(isLeapYear(year)):
         months['Feb'] = 29
     if((day <= months[month]) & (day > 0)):
