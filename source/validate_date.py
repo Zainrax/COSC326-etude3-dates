@@ -22,13 +22,21 @@ def validate(dateIn):
         The input date formated or an invalid response
     """
     dateIn = dateIn.strip('\n')
-    date = re.split('-|\\s|/', dateIn)
+    date = re.split('-|\s|/', dateIn)
+    separators = re.sub(r'[^-|\s|/]', '', dateIn)
+    if(len(separators) != 2):
+        return '{} - INVALID: {} separators found, {}'.format(dateIn, len(separators), "must have only 2 separators using '/','-', or <space>.")
     if not(len(date) == 3):
         return '{} - INVALID: {}'.format(dateIn, "Must have 3 values seperated using '/','-', or <space>.")
     errors = []
+    if not(len(set(separators))==1):
+            errors.append("must use same seprator")
+
     day = date[0]
     month = date[1]
     year = date[2]
+
+    
 
     try:
         month = format_month(month)
@@ -48,7 +56,10 @@ def validate(dateIn):
     if((month == 'err')|(year == 'err')):
         errors.append('unable to verify day')
     elif (day.isdigit()):
-        day = format_day(int(day), month, year)
+        if(len(day) > 2):
+            day = 'err'
+        else:
+            day = format_day(int(day), month, year)
         if(day == 'err'):
             errors.append("invalid day used")
     else:
@@ -68,16 +79,13 @@ def isLeapYear(year):
     Returns:
         Boolean depending if it is a leap year or not.
     """
-    if (year % 4 == 0):
-        if (year % 100 == 0):
-            if(year % 400 == 0):
-                return True
-            else:
-                return False
-        else:    
-            return True
+    if ((year % 4 == 0) & (year % 100 != 0) | (
+        0
+    )):
+        return True
     else:
         return False
+    
 
 def format_day(day, month, year):
     """Checks a day within the month ranges and depending if it a leap year
@@ -107,9 +115,14 @@ def format_month(month):
     months = ['Jan','Feb','Mar','Apr','May','Jun',
               'Jul','Aug','Sep','Oct','Nov','Dec']
     if (month.isdigit()):
-        month = int(month)
-        if((month > 12) | (month <= 0)): raise ValueError
-        return months[month - 1]
+        if(len(month) > 2):
+            raise ValueError
+        else:
+            month = int(month)
+            if((month > 12) | (month <= 0)): raise ValueError
+            return months[month - 1]
+    elif not(month.istitle() | month.islower()| month.isupper()):
+        raise ValueError
     elif(month.capitalize() in months):
         return month.capitalize()
     else:
@@ -125,6 +138,14 @@ def format_year(year):
     """
     if not(year.isdigit()):
         raise ValueError
+        
+    if(len(year) != 4):
+        if(len(year) != 2):
+            raise ValueError
+    if(len(year) == 4):
+        if(year[0] == '0'):
+            raise ValueError
+    
     year = int(year)
     if(year <= 99):
         if(year >= 50):
@@ -135,4 +156,3 @@ def format_year(year):
             return year
     else:
         return year
-

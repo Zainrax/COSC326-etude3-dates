@@ -26,6 +26,7 @@ def main():
                 date = input()
                 if(date == 'exit'): break
                 print(vd.validate(date))
+            break
         elif(op == 'r'):
             filename = input('What is the name of the file including extension(.txt recommended)? eg. "dates.txt"\n')
             while not (os.path.isfile(filename)):
@@ -36,9 +37,9 @@ def main():
             print('type "exit" to escape:')
             while(True):
                 if(input()=='exit'): break
+            break
         else:
             op = input('Invalid input, try again:[r|m|exit]\n')
-        break
 
 if __name__ == '__main__':
     if not (os.isatty(sys.stdin.fileno())):
